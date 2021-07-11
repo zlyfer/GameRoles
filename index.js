@@ -11,16 +11,7 @@ const { token } = require("./token.json");
 client.on("ready", () => {
   console.log("Bot ready.");
 
-  // Set bot status:
-  // client.user
-  //   .setUsername("GameRoles")
-  //   .then((t) => {
-  //     console.log(t);
-  //   })
-  //   .catch((e) => {
-  //     console.log(e);
-  //   });
-
+  // Set bot activity:
   client.user.setActivity("gamers gaming games", { type: "WATCHING" }).catch((error) => {
     console.warn("Could not set presence.");
     console.warn(error);
