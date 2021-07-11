@@ -1,6 +1,6 @@
 // jshint esversion: 9
 
-if (process.platform != "win32") process.chdir("/home/zlyfer/DiscordBots/DiscordGameRolesBot");
+if (process.platform != "win32") process.chdir("/home/zlyfer/DiscordBots/GameRoles");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
