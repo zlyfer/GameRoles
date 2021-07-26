@@ -20,6 +20,7 @@ client.on("ready", () => {
     console.warn("Could not set presence.");
     console.warn(error);
   });
+
   console.log("Bot ready.");
 });
 
@@ -44,10 +45,8 @@ function presenceUpdate(oldMember, newMember) {
               .then((m) => {
                 // console.log(`Added member ${m.displayName} to the role ${role.name}.`);
               })
-              .catch((error) => {
-                console.warn(error);
-              });
-        } else
+              .catch(console.warn);
+        } /* else
           guild.roles
             .create({
               data: {
@@ -64,16 +63,41 @@ function presenceUpdate(oldMember, newMember) {
                 .then((m) => {
                   // console.log(`Added member ${m.displayName} to role ${r.name}.`);
                 })
-                .catch((error) => {
-                  console.warn(error);
-                });
+                .catch(console.warn);
             })
-            .catch((error) => {
-              console.warn(error);
-            });
+            .catch(console.warn); */
       }
     });
   }
+}
+
+/* ---- Other Functions --- */
+
+function deleteRoles() {
+  let roles = {};
+  client.guilds
+    .fetch("203778798406074368")
+    .then((guild) => {
+      guild.members.cache.forEach((member) => {
+        member.roles.cache.forEach((role) => {
+          if (role.name.startsWith("🎮")) {
+            if (!roles[role.id]) roles[role.id] = { name: role.name, id: role.id, count: 1, role };
+            else roles[role.id].count++;
+          }
+        });
+      });
+
+      for (let rr in roles) {
+        let r = roles[rr];
+        if (r.count < 5) {
+          r.role
+            .delete("Less than 5 members.")
+            .then((deleted) => console.log(`Deleted role ${deleted.name}`))
+            .catch(console.warn);
+        }
+      }
+    })
+    .catch(console.warn);
 }
 
 /* --------- Misc --------- */
