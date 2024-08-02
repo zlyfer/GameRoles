@@ -1,6 +1,5 @@
 // jshint esversion: 9
 
-if (process.platform != "win32") process.chdir("/home/zlyfer/DiscordBots/GameRoles");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 // const fs = require("fs");
@@ -21,7 +20,8 @@ client.on("ready", () => {
     console.warn(error);
   });
 
-  console.log("Bot ready.");
+  console.log("Bot is ready.");
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
 /* ----- Event Handler ---- */
@@ -100,10 +100,21 @@ function deleteRoles() {
     .catch(console.warn);
 }
 
-/* --------- Misc --------- */
+/* ---------- Bot Shutdown ---------- */
+
+const handleShutdown = async () => {
+  console.info("Logging out and shutting down...");
+  await client.destroy();
+  process.exit(0);
+};
+
+process.on("SIGINT", handleShutdown);
+process.on("SIGTERM", handleShutdown);
 
 process.on("unhandledRejection", (err) => {
-  console.warn("UNHANDLED: " + err);
+  console.error("UNHANDLED: " + err);
 });
+
+/* ----------- Bot Startup ---------- */
 
 client.login(token);
